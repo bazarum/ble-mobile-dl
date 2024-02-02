@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xiao_ei_data_capture/pages/capture_page.dart';
 import 'package:xiao_ei_data_capture/pages/setup_page.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 void main() {
   runApp(const MaterialApp(home: XiaoDataCaptureApp()));
@@ -41,12 +40,12 @@ class _XiaoDataCaptureAppState extends State<XiaoDataCaptureApp>
         ),
         bottomNavigationBar: Material(
             color: Colors.blueAccent,
-            child: TabBar(controller: controller, tabs: <Tab>[
+            child: TabBar(controller: controller, tabs: const <Tab>[
               Tab(text: "Setup", icon: Icon(Icons.settings_rounded)),
               Tab(text: "Capture", icon: Icon(Icons.cloud_upload_rounded)),
             ])),
         body: TabBarView(
             controller: controller,
-            children: <Widget>[SetupPage(), CapturePage()]));
+            children: const <Widget>[SetupPage(), CapturePage()]));
   }
 }

@@ -99,16 +99,16 @@ class _SetupPageState extends State<SetupPage> {
             ),
           )
         else
-          Center(
+          const Center(
             child: Card(
-              color: const Color.fromARGB(255, 240, 237, 237),
+              color: Color.fromARGB(255, 240, 237, 237),
               margin: EdgeInsets.all(16.0),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Column(
-                    children: const [
+                    children: [
                       Padding(
                         padding: EdgeInsets.only(bottom: 25),
                         child: Icon(
@@ -182,7 +182,7 @@ class _SetupPageState extends State<SetupPage> {
 getEIKeys(apiKey, projectId) async {
   final prefs = await SharedPreferences.getInstance();
   final response = await http.get(
-      Uri.parse('https://studio.edgeimpulse.com/v1/api/${projectId}/devkeys'),
+      Uri.parse('https://studio.edgeimpulse.com/v1/api/$projectId/devkeys'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
@@ -256,8 +256,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       : null,
                   child: const Text('Done'),
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.blueAccent, // background
-                    onPrimary: Colors.white, // foreground
+                    foregroundColor: Colors.white, backgroundColor: Colors.blueAccent, // foreground
                   ),
                 ),
               ),
@@ -290,28 +289,31 @@ class _QRViewExampleState extends State<QRViewExample> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
+    
     setState(() {
       this.controller = controller;
     });
+
     controller.scannedDataStream.listen((scanData) async {
-      if (scanData != null) {
-        String? scannedUrl = scanData.code;
 
-        if (scannedUrl?.indexOf("https://smartphone.edgeimpulse.com") != -1) {
-          eiApiKey = Uri.parse(scannedUrl!).queryParameters["apiKey"];
-          if (kDebugMode) {
-            print("$eiApiKey");
-          }
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('eiApiKey', eiApiKey!);
-          controller.dispose();
+      String? scannedUrl = scanData.code;
 
-          setState(() {
-            scanned = true;
-          });
+      if (scannedUrl !="" && scannedUrl != null) {
+      if (scannedUrl.contains("https://smartphone.edgeimpulse.com")) {
+        eiApiKey = Uri.parse(scannedUrl).queryParameters["apiKey"];
+        if (kDebugMode) {
+          print("$eiApiKey");
         }
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('eiApiKey', eiApiKey!);
+        controller.dispose();
+
+        setState(() {
+          scanned = true;
+        });
       }
-    });
+    }
+        });
   }
 
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {

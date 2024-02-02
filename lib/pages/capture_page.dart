@@ -1,7 +1,7 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -240,7 +240,7 @@ class _CapturePageState extends State<CapturePage> {
                               } else if (_boardType == "xiao") {
                                 String strData = String.fromCharCodes(value);
                                 if (kDebugMode) {
-                                  print("value received ${strData}");
+                                  print("value received $strData");
                                 }
                                 if (strData == ";") {
                                   if (kDebugMode) {
@@ -309,8 +309,7 @@ class _CapturePageState extends State<CapturePage> {
             Center(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blueGrey, // background
-                  onPrimary: Colors.white, // foreground
+                  foregroundColor: Colors.white, backgroundColor: Colors.blueGrey, // foreground
                 ),
                 child: const Text('Disconnect BLE'),
                 onPressed: () async {
@@ -485,7 +484,7 @@ class _CapturePageState extends State<CapturePage> {
                                     dataCounter = 0;
 
                                     if (_boardType == "microbit") {
-                                      tx?.write("$_duration".codeUnits);
+                                      tx?.write(_duration.codeUnits);
                                     } else {
                                       tx?.write("S$_duration".codeUnits);
                                     }
@@ -506,9 +505,9 @@ class _CapturePageState extends State<CapturePage> {
                     margin: const EdgeInsets.all(16.0),
                     child: SizedBox(
                       width: containerWidth,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(children: const [
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(children: [
                           Text(
                             "No project is linked. Steup your Edge Impuls project first on Setup page.",
                             style: TextStyle(fontSize: fontSizeSmall),
